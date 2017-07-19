@@ -1,0 +1,15 @@
+DIR=../CDM2_85 # where the trajactory file stores
+
+# trjcat_d -f eq4.xtc traj.part0002.xtc traj.part0003.xtc traj.part0004.xtc -o eq4_cat.xtc -overwrite
+# echo 0 | trjconv_d -f eq4_cat.xtc -s eq4.tpr -o eq4_no_jump.xtc -pbc nojump -skip 10
+# echo 1 0 | trjconv_d -f eq4_no_jump.xtc -s eq4.tpr -o eq4_no_jump_center.xtc -center -pbc mol
+
+ln -s $DIR/minim.gro ./minim.gro
+ln -s $DIR/eq4_no_jump_center.xtc ./eq4_no_jump_center.xtc
+
+mkdir -p DAT PNG
+
+vmd -dispdev text -e 01GetXYZ4contours_v0.tcl
+vmd -dispdev text -e 01GetXYZ4contours_v3.tcl
+
+jupyter notebook 02Plot_Curvature.ipynb
